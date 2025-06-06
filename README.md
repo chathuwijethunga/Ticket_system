@@ -7,55 +7,42 @@ Follow these steps to get the project running on your local machine.
 
 1. Clone the Repository
 
-git clone <your-repository-url>
+git clone <https://github.com/chathuwijethunga/Ticket_system>
 cd ticket_system
 
 2. Install PHP Dependencies
 
-Install Laravel's dependencies using Composer.
-composer install
+Install Laravel's dependencies using Composer using composer install
 
 3. Configure Environment File
 
-Copy the example environment file.
-cp .env.example .env
-
-Generate an application key.
-php artisan key:generate
+Generate an application key using php artisan key:generate
 
 Edit the .env file. Set your database credentials.
 
 DB_CONNECTION=sqlite
 
-Make sure the database exists.
-
 4. Run Database Migrations
 
-Run migrations to set up your database tables.
-php artisan migrate
+Run migrations to set up your database tables using php artisan migrate
 
-You can seed the database with test data.
-php artisan db:seed
+You can seed the database with test data using php artisan db:seed
 
 5. Install Node.js Dependencies
 
-Install frontend dependencies using npm.
-npm install
+Install frontend dependencies using npm using npm install
 
 6. Bundle React Assets
 
-Build the React assets for production.
-npm run build
+Build the React assets for production using npm run build
 
-For development, run the Vite development server. This will watch for changes and automatically refresh your browser.
-npm run dev
+For development, run the Vite development server. This will watch for changes and automatically refresh your browser using npm run dev
 
 Keep this command running in a separate terminal while developing.
 
 7. Start Laravel Development Server
 
-Serve the Laravel application.
-php artisan serve
+Serve the Laravel application using php artisan serve
 
 Access the application in your browser at http://127.0.0.1:8000.
 
