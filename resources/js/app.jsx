@@ -1,4 +1,10 @@
-import './bootstrap'; // If you're using Bootstrap for any JS utilities
+import './bootstrap'; 
+import Alpine from 'alpinejs'; 
+import focus from '@alpinejs/focus'; 
+
+window.Alpine = Alpine; 
+Alpine.plugin(focus);
+Alpine.start(); 
 
 import React from 'react';
 import ReactDOM from 'react-dom/client';

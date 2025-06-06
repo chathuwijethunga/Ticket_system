@@ -13,12 +13,48 @@ class TicketController extends Controller
     public function index(Request $request)
     {
         $query = Ticket::query();
-        if ($request->has('status')&& in_array($request->status, ['open', 'closed'])){
-            $query->where('status', $request->status);
-        }
-        $tickets = $query->latest()->get();
 
-        return view('tickets.index', compact('tickets'));
+        //Search
+        $searchTerm = $request->input('search');
+        if (!empty($searchTerm)) {
+            $query->where(function ($q) use ($searchTerm) {
+                $q->where('customer_name', 'like', '%' . $searchTerm . '%')
+                  ->orWhere('issue_description', 'like', '%' . $searchTerm . '%');
+            });
+        }
+
+        // Apply status filter if present and not 'all'
+        $statusFilter = $request->input('status', 'all');
+        if ($statusFilter !== 'all') {
+            $query->where('status', $statusFilter);
+        }
+
+        // Order the tickets
+        $tickets = $query->orderBy('created_at', 'desc')->get();
+
+        $openTicketsCount = Ticket::where('status', 'open')->count();
+        $closedTicketsCount = Ticket::where('status', 'closed')->count();
+        $allTicketsCount = Ticket::count(); // Total tickets regardless of status
+
+        if ($request->wantsJson()) {
+            return response()->json([
+                'tickets' => $tickets,
+                'counts' => [
+                    'open' => $openTicketsCount,
+                    'closed' => $closedTicketsCount,
+                    'all' => $allTicketsCount,
+                ],
+            ]);
+        }
+
+        // Otherwise, return the Blade view (for initial page load)
+        return view('tickets.index', [
+            'tickets' => $tickets,
+            'filterStatus' => $statusFilter,
+            'openTicketsCount' => $openTicketsCount, // Pass counts to Blade
+            'closedTicketsCount' => $closedTicketsCount,
+            'allTicketsCount' => $allTicketsCount,
+        ]);
     }
 
     /**
