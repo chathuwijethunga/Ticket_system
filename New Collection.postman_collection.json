@@ -1,0 +1,331 @@
+{
+	"info": {
+		"_postman_id": "588587a7-e355-46cb-94ab-b6f9b6be280b",
+		"name": "New Collection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "30172983"
+	},
+	"item": [
+		{
+			"name": "kernelencode",
+			"item": [
+				{
+					"name": "ReadTickets",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://{{host}}/tickets",
+							"protocol": "http",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"tickets"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CreateTicketForm",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Parse the HTML response\r",
+									"const cheerio = require('cheerio'); // Postman has cheerio built-in for HTML parsing\r",
+									"const $ = cheerio.load(pm.response.text());\r",
+									"\r",
+									"// Find the hidden input with name=\"_token\"\r",
+									"const csrfToken = $('input[name=\"_token\"]').val();\r",
+									"\r",
+									"// Check if the token was found\r",
+									"if (csrfToken) {\r",
+									"    // Set the token as an environment variable\r",
+									"    pm.environment.set(\"csrf_token\", csrfToken);\r",
+									"    console.log(\"CSRF Token extracted and set:\", csrfToken);\r",
+									"} else {\r",
+									"    console.warn(\"CSRF Token not found in the response.\");\r",
+									"}"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{host}}/tickets/create",
+							"protocol": "http",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"tickets",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CreateTicket",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "X-CSRF-TOKEN",
+								"value": "{{csrf_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "_token ",
+									"value": "{{csrf_token}} ",
+									"type": "text"
+								},
+								{
+									"key": "customer_name",
+									"value": "customer8",
+									"type": "text"
+								},
+								{
+									"key": "issue_description",
+									"value": "My internet is not working",
+									"type": "text"
+								},
+								{
+									"key": "priority",
+									"value": "low",
+									"type": "text"
+								},
+								{
+									"key": "status",
+									"value": "open",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://{{host}}/tickets",
+							"protocol": "http",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"tickets"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "EditTicketForm",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://{{host}}/tickets/8/edit",
+							"protocol": "http",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"tickets",
+								"8",
+								"edit"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UpdateSpecificTicket",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "X-CSRF-TOKEN",
+								"value": "{{csrf_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"customer_name\": \"Jane Doe\",\r\n    \"issue_description\": \"My internet is intermittently dropping.\",\r\n    \"priority\": \"medium\",\r\n    \"status\": \"closed\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{host}}/tickets/8",
+							"protocol": "http",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"tickets",
+								"8"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DeleteTicket",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "X-CSRF-TOKEN",
+								"value": "{{csrf_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://{{host}}/tickets/8",
+							"protocol": "http",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"tickets",
+								"8"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Dashboard",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://{{host}}/dashboard",
+							"protocol": "http",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"dashboard"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetProfile",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Parse the HTML response to extract the CSRF token\r",
+									"const htmlResponse = pm.response.text();\r",
+									"\r",
+									"// Use a regular expression to find the meta tag with name=\"csrf-token\"\r",
+									"// and capture its content attribute\r",
+									"const csrfTokenRegex = /<meta name=\"csrf-token\" content=\"([^\"]+)\">/;\r",
+									"const match = htmlResponse.match(csrfTokenRegex);\r",
+									"\r",
+									"if (match && match[1]) {\r",
+									"    const csrfToken = match[1];\r",
+									"    // Set the CSRF token as an environment variable\r",
+									"    // Make sure you have a Postman Environment selected (e.g., \"Laravel Dev\")\r",
+									"    pm.environment.set(\"profile_csrf_token\", csrfToken);\r",
+									"    console.log(\"CSRF Token Extracted:\", csrfToken);\r",
+									"} else {\r",
+									"    console.error(\"CSRF Token not found in the response.\");\r",
+									"}"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-CSRF-TOKEN",
+								"value": "{{csrf_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://{{host}}/profile",
+							"protocol": "http",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"profile"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "New Request",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjE3NDIzMjAwNzI4ODgsImVtYWlsIjoidGVzdEBleGFtcGxlLmNvbSIsImlhdCI6MTc0MjMyMDA4MSwiZXhwIjoxNzQyMzIzNjgxfQ.oGl5PKdhX1Q0a36P8Jg97-o9tebAjSiIWwRh-h8Cagw",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"email\": \"test@example.com\",\r\n  \"password\": \"password123\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
