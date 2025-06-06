@@ -46,6 +46,10 @@ function EditTicketForm({ ticket: initialTicket }) {
 
         // Add form data
         for (const key in formData) {
+            // IMPORTANT: Only send the fields that are actually editable or needed for update.
+            // If customer_name and issue_description are truly read-only, you don't need to send them back.
+            // However, Laravel's update expects them for validation/mass assignment, so it's safer to send them.
+            // They will be the initial values.
             const input = document.createElement('input');
             input.type = 'hidden';
             input.name = key;
@@ -69,11 +73,11 @@ function EditTicketForm({ ticket: initialTicket }) {
                     type="text"
                     name="customer_name"
                     id="customer_name"
-                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline bg-gray-100 cursor-not-allowed" // Added bg-gray-100 and cursor-not-allowed for styling
                     value={formData.customer_name}
-                    onChange={handleChange}
+                    onChange={handleChange} // Keep onChange for controlled component, but it won't be triggered
                     required
-                    disabled={loading}
+                    disabled={true} // <-- ADD THIS LINE to disable the input
                 />
                 {errors.customer_name && <p className="text-red-500 text-xs italic mt-2">{errors.customer_name[0]}</p>}
             </div>
@@ -84,11 +88,11 @@ function EditTicketForm({ ticket: initialTicket }) {
                     name="issue_description"
                     id="issue_description"
                     rows="5"
-                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline bg-gray-100 cursor-not-allowed" // Added bg-gray-100 and cursor-not-allowed for styling
                     value={formData.issue_description}
-                    onChange={handleChange}
+                    onChange={handleChange} // Keep onChange for controlled component, but it won't be triggered
                     required
-                    disabled={loading}
+                    disabled={true} // <-- ADD THIS LINE to disable the textarea
                 ></textarea>
                 {errors.issue_description && <p className="text-red-500 text-xs italic mt-2">{errors.issue_description[0]}</p>}
             </div>
@@ -134,7 +138,14 @@ function EditTicketForm({ ticket: initialTicket }) {
                 >
                     {loading ? 'Updating...' : 'Update Ticket'}
                 </button>
-                <a href="{{ route('tickets.index') }}" className="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800">
+                {/* Ensure this link uses Laravel's route helper in Blade, not directly in React JSX */}
+                {/* This `<a>` tag is likely part of your Blade view that wraps this React component,
+                    or it should be a programmatic navigation in React if you're doing SPA.
+                    For a pure React component, it's safer to use React Router if you had one,
+                    or window.location.href or a prop like onCancel.
+                    If this is a standard HTML link within React, it should work.
+                */}
+                <a href="/tickets" className="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800">
                     Cancel
                 </a>
             </div>

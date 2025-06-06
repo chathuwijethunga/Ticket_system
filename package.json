@@ -24,6 +24,7 @@
     "dependencies": {
         "@alpinejs/focus": "^3.14.9",
         "@tailwindcss/vite": "^4.1.8",
-        "lucide-react": "^0.513.0"
+        "lucide-react": "^0.513.0",
+        "prop-types": "^15.8.1"
     }
 }

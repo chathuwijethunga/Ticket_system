@@ -14,6 +14,12 @@ class TicketController extends Controller
     {
         $query = Ticket::query();
 
+        // filter open/closed
+        $statusFilter = $request->input('status', 'all');
+        if ($statusFilter !== 'all') {
+            $query->where('status', $statusFilter);
+        }
+
         //Search
         $searchTerm = $request->input('search');
         if (!empty($searchTerm)) {
@@ -23,19 +29,14 @@ class TicketController extends Controller
             });
         }
 
-        // Apply status filter if present and not 'all'
-        $statusFilter = $request->input('status', 'all');
-        if ($statusFilter !== 'all') {
-            $query->where('status', $statusFilter);
-        }
-
-        // Order the tickets
+        // Order of the tickets
         $tickets = $query->orderBy('created_at', 'desc')->get();
 
         $openTicketsCount = Ticket::where('status', 'open')->count();
         $closedTicketsCount = Ticket::where('status', 'closed')->count();
         $allTicketsCount = Ticket::count(); // Total tickets regardless of status
 
+        //return json res
         if ($request->wantsJson()) {
             return response()->json([
                 'tickets' => $tickets,
@@ -47,11 +48,11 @@ class TicketController extends Controller
             ]);
         }
 
-        // Otherwise, return the Blade view (for initial page load)
+        // Othervise, return Blade view 
         return view('tickets.index', [
             'tickets' => $tickets,
             'filterStatus' => $statusFilter,
-            'openTicketsCount' => $openTicketsCount, // Pass counts to Blade
+            'openTicketsCount' => $openTicketsCount, 
             'closedTicketsCount' => $closedTicketsCount,
             'allTicketsCount' => $allTicketsCount,
         ]);
@@ -84,14 +85,15 @@ class TicketController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Ticket $ticket)
     {
-        //
+        return view('tickets.show', compact('ticket'));
     }
 
     /**
      * Show the form for editing the specified resource.
      */
+        
     public function edit(Ticket $ticket)
     {
         return view('tickets.edit', compact('ticket'));

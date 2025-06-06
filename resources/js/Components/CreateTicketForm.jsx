@@ -5,15 +5,16 @@ function CreateTicketForm() {
     const formRootElement = document.getElementById('create-ticket-form-root');
     const csrfToken = formRootElement.dataset.csrfToken;
     const formAction = formRootElement.dataset.formAction;
+    const ticketsIndexUrl = formRootElement.dataset.ticketsIndexUrl;
 
     const [formData, setFormData] = useState({
         customer_name: '',
         issue_description: '',
         priority: 'medium', // Default value
-        status: 'open'      // Default value for create, as per controller validation
+        status: 'open'      // Default value for create
     });
     const [loading, setLoading] = useState(false);
-    const [errors, setErrors] = useState({}); // To display validation errors
+    const [errors, setErrors] = useState({}); 
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -23,7 +24,7 @@ function CreateTicketForm() {
     const handleSubmit = (e) => {
         e.preventDefault();
         setLoading(true);
-        setErrors({}); // Clear previous errors
+        setErrors({}); 
 
         // Create a hidden form and submit it to Laravel
         const form = document.createElement('form');
@@ -103,8 +104,7 @@ function CreateTicketForm() {
                 {errors.priority && <p className="text-red-500 text-xs italic mt-2">{errors.priority[0]}</p>}
             </div>
 
-            {/* Status field is set to 'open' by default in the controller and not typically editable on create by customer */}
-            {/* If needed, uncomment this div. Otherwise, formData.status will be 'open' as default */}
+            {/* Status field is set to 'open' by default  */}
             {/* <div className="mb-4">
                 <label htmlFor="status" className="block text-gray-700 text-sm font-bold mb-2">Status:</label>
                 <select
@@ -124,12 +124,12 @@ function CreateTicketForm() {
             <div className="flex items-center justify-between">
                 <button
                     type="submit"
-                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                    className="bg-blue-700 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                     disabled={loading}
                 >
                     {loading ? 'Creating...' : 'Create Ticket'}
                 </button>
-                <a href="{{ route('tickets.index') }}" className="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800">
+                <a href="/tickets" className="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800">
                     Cancel
                 </a>
             </div>

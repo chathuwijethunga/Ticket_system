@@ -6,15 +6,19 @@
             <div class="flex justify-between items-center mb-6">
                 <h1 class="text-3xl font-bold text-gray-800">Create New Ticket</h1>
                 <a href="{{ route('tickets.index') }}" class="text-blue-500 hover:underline">Back to Tickets</a>
+                
             </div>
 
-            {{-- The root element for your React CreateTicketForm component --}}
+            {{-- The root element for React CreateTicketForm component --}}
             {{-- Pass CSRF token and form action URL --}}
             <div
                 id="create-ticket-form-root"
                 data-csrf-token="{{ csrf_token() }}"
                 data-form-action="{{ route('tickets.store') }}"
-            ></div>
+            >
+            
+            </div>
+            
 
             {{-- Display flash messages --}}
             @if (session('success'))
@@ -29,6 +33,7 @@
                     <span class="block sm:inline">{{ session('error') }}</span>
                 </div>
             @endif
+            
         </div>
     </div>
 @endsection
