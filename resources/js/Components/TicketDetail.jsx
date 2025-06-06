@@ -1,12 +1,11 @@
 import React from 'react';
-import PropTypes from 'prop-types'; // Import PropTypes for type checking
-
+import PropTypes from 'prop-types'; 
 const TicketDetail = ({ ticket }) => {
     if (!ticket) {
         return <div className="text-center text-gray-500">No ticket data available.</div>;
     }
 
-    // Helper function to get status text color
+    //  status text color
     const getStatusColor = (status) => {
         switch (status) {
             case 'open':
@@ -18,7 +17,7 @@ const TicketDetail = ({ ticket }) => {
         }
     };
 
-    // Helper function to get priority text color
+    // priority text color
     const getPriorityColor = (priority) => {
         switch (priority) {
             case 'low':
@@ -32,7 +31,7 @@ const TicketDetail = ({ ticket }) => {
         }
     };
 
-    // Format dates (if they are strings, which they will be when passed as data attributes)
+    // dates 
     const formatDate = (dateString) => {
         if (!dateString) return 'N/A';
         const date = new Date(dateString);

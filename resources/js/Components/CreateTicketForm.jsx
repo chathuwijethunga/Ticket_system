@@ -5,13 +5,12 @@ function CreateTicketForm() {
     const formRootElement = document.getElementById('create-ticket-form-root');
     const csrfToken = formRootElement.dataset.csrfToken;
     const formAction = formRootElement.dataset.formAction;
-    const ticketsIndexUrl = formRootElement.dataset.ticketsIndexUrl;
 
     const [formData, setFormData] = useState({
         customer_name: '',
         issue_description: '',
-        priority: 'medium', // Default value
-        status: 'open'      // Default value for create
+        priority: 'medium', 
+        status: 'open'     
     });
     const [loading, setLoading] = useState(false);
     const [errors, setErrors] = useState({}); 

@@ -93,7 +93,7 @@ function TicketList() {
 
             const form = document.createElement('form');
             form.action = `/tickets/${ticketId}`; // Laravel route for delete
-            form.method = 'POST'; // Always POST for method spoofing
+            form.method = 'POST'; 
 
             const methodField = document.createElement('input');
             methodField.type = 'hidden';
@@ -107,14 +107,14 @@ function TicketList() {
             csrfField.value = csrfToken; 
             form.appendChild(csrfField);
 
-            document.body.appendChild(form); // Temporarily add the form to the DOM
-            form.submit(); // Submit the form
+            document.body.appendChild(form); 
+            form.submit(); 
 
 
         } catch (err) {
             console.error("Error deleting ticket:", err);
             setError(err.message || 'An unexpected error occurred during deletion.');
-            setLoading(false); // Make sure loading is reset on error if not redirecting
+            setLoading(false); 
         }
     };
 
@@ -145,7 +145,7 @@ function TicketList() {
         });
     };
 
-    // Navigate to the show page when double clicked
+    // Navigate to the issue when double clicked
     const handleRowDoubleClick = (ticketId) => {
         window.location.href = `/tickets/${ticketId}`; 
     };
