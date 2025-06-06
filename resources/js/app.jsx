@@ -1,41 +1,30 @@
-import './bootstrap'; // Laravel specific, can keep or remove if not needed
-import '../css/app.css'; // For Tailwind CSS
+import './bootstrap'; // If you're using Bootstrap for any JS utilities
 
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 
-// Import your React components
-import TicketList from './components/TicketList'; // We will create this next
+// Import your React components here as you create them
+import TicketList from './Components/TicketList';
+import CreateTicketForm from './Components/CreateTicketForm';
+import EditTicketForm from './Components/EditTicketForm';
 
-// Function to mount a specific React component to a given root element
-function mountReactComponent(Component, rootId) {
-    const rootElement = document.getElementById(rootId);
-    if (rootElement) {
-        // Get data from data attributes on the root element
-        const props = {};
-        for (const key in rootElement.dataset) {
-            try {
-                // Attempt to parse JSON strings
-                props[key] = JSON.parse(rootElement.dataset[key]);
-            } catch (e) {
-                // If not JSON, use the raw string
-                props[key] = rootElement.dataset[key];
-            }
-        }
-
-        // Render the component with the collected props
-        ReactDOM.createRoot(rootElement).render(
-            <React.StrictMode>
-                <Component {...props} />
-            </React.StrictMode>
-        );
+// Global rendering logic for components
+// This mounts components to specific DOM elements
+document.addEventListener('DOMContentLoaded', () => {
+    const ticketListElement = document.getElementById('ticket-list-root');
+    if (ticketListElement) {
+        ReactDOM.createRoot(ticketListElement).render(<TicketList />);
     }
-}
 
-// --- Mount your specific components here ---
-// Mount TicketList component to the 'ticket-list-root' element
-mountReactComponent(TicketList, 'ticket-list-root');
+    const createTicketFormElement = document.getElementById('create-ticket-form-root');
+    if (createTicketFormElement) {
+        ReactDOM.createRoot(createTicketFormElement).render(<CreateTicketForm />);
+    }
 
-// You will add more mountReactComponent calls for other components later
-// Example: mountReactComponent(CreateTicketForm, 'create-ticket-root');
-// Example: mountReactComponent(EditTicketForm, 'edit-ticket-root');
+    const editTicketFormElement = document.getElementById('edit-ticket-form-root');
+    if (editTicketFormElement) {
+        // You'll need to pass initial data to this component
+        const ticketData = JSON.parse(editTicketFormElement.dataset.ticket || '{}');
+        ReactDOM.createRoot(editTicketFormElement).render(<EditTicketForm ticket={ticketData} />);
+    }
+});
