@@ -72,5 +72,3 @@ Tailwind CSS: Tailwind CSS is used for styling. It allows rapid UI development w
 CSRF Token Handling: Passing CSRF tokens from Laravel to React is important. This ensures secure form submissions and API calls.
 
 Method Spoofing for DELETE: Direct DELETE requests from React to Laravel web routes showed errors. Laravel expects \_method=DELETE in POST requests for web routes. The solution involves submitting a hidden form for deletions.
-
-URL Generation: Using Laravel's route() helper directly in React JSX does not work. URLs must be passed from Blade templates to React components. This keeps the frontend and backend linked correctly.
