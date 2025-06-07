@@ -12,10 +12,11 @@ cd ticket_system
 
 2. Install PHP Dependencies
 
-Install Laravel's dependencies using Composer using composer install
+Install Laravel's dependencies using composer install
 
 3. Configure Environment File
 
+Craete new .env file and then copy the .env.example file to that.
 Generate an application key using php artisan key:generate
 
 Edit the .env file. Set your database credentials.
@@ -30,7 +31,7 @@ You can seed the database with test data using php artisan db:seed
 
 5. Install Node.js Dependencies
 
-Install frontend dependencies using npm using npm install
+Install frontend dependencies using npm install
 
 6. Bundle React Assets
 
