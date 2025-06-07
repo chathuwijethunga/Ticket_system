@@ -58,6 +58,11 @@ Mounting: ReactDOM.createRoot().render() is used. This renders the React compone
 
 Data Flow: React components access data from the data-\_ attributes of their root div. For example, a filter status or CSRF token.
 
+### You can run the application using Docker.
+
+sudo docker build -t ticketapplication .
+sudo docker run -d -p 8000:8000 ticketapplication
+
 ## Development Approach and Challenges
 
 ### Development Approach
